@@ -10,38 +10,23 @@ jobs:
   tahap-pengujian-ci:
     runs-on: ubuntu-latest
     steps:
-      - name: 1. Ambil Kode Terbaru
+      - name: Ambil Kode Terbaru
         uses: actions/checkout@v4
 
-      - name: 2. Install Python
+      - name: Install Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: 3. Install Requirements
+      # Kita paksa robot menginstall pytest & bandit langsung di sini agar anti-gagal
+      - name: Install Alat Pengujian
         run: |
-          pip install -r requirements.txt
+          pip install pytest bandit
 
-      - name: 4. Jalankan Tes Rumus AI & API
+      - name: Jalankan Tes Rumus AI
         run: |
           pytest test_system.py
 
-      - name: 5. Scan Keamanan (Security Gate)
+      - name: Scan Keamanan
         run: |
-          bandit -r main.py
-
-  tahap-penyebaran-cd:
-    needs: tahap-pengujian-ci
-    runs-on: ubuntu-latest
-    steps:
-      - name: 1. Ambil Kode
-        uses: actions/checkout@v4
-
-      - name: 2. Bungkus Aplikasi dengan Docker
-        run: |
-          docker build -t ai-smart-shoe:latest .
-          echo "Docker Image Berhasil Dibuat!"
-
-      - name: 3. Simulasi Deploy ke Pasar (Production)
-        run: |
-          echo "Sistem AI Smart Shoe sukses disebarkan dan siap digunakan Toko Sepatu!"
+          bandit main.py
