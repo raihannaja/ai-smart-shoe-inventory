@@ -1,0 +1,1 @@
+[![AI Smart Shoe CI-CD Pipeline](https://github.com/raihannaja/ai-smart-shoe-inventory/actions/workflows/cicd.yml/badge.svg)](https://github.com/raihannaja/ai-smart-shoe-inventory/actions/workflows/cicd.yml)
